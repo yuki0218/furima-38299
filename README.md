@@ -51,7 +51,7 @@
 
 ### Association
 
-- has_many :purchase_records
+- belongs_to :purchase_records
 
 ## purchase_records テーブル
 
@@ -59,10 +59,9 @@
 | ---------------- | ---------- | ------------------------------ |
 | user             | references | null: false, foreign_key: true | 
 | item             | references | null: false, foreign_key: true | 
-| shopping_address | references | null: false, foreign_key: true | 
 
 ### Association
 
 - belongs_to :user
 - belongs_to :item
-- belongs_to :shopping_address
+- has_one :shopping_address
