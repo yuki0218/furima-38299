@@ -62,10 +62,20 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
       end
-      it 'priceが9999999より大きと保存できない' do
+      it 'priceが9999999より大きいと保存できない' do
         @item.price = '10000000'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
+      end
+      it 'priceに半角数字以外が含まれていると保存できない' do
+        @item.price = '１０００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+      it 'priceが整数でないと保存できない' do
+        @item.price = '500.5'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price must be an integer")
       end
       it 'userが紐付いていないと保存できない' do
         @item.user = nil
