@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.order("created_at DESC")
+    @purchase_items_id = PurchaseRecord.pluck(:item_id)
   end
 
   def new
@@ -21,6 +22,7 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @purchase_items_id = PurchaseRecord.pluck(:item_id)
   end
 
   def edit
