@@ -34,6 +34,11 @@ RSpec.describe AddressRecord, type: :model do
         @address_record.valid?
         expect(@address_record.errors.full_messages).to include("Prefecture can't be blank")
       end
+      it 'prefecture_idが空では保存できない' do
+        @address_record.prefecture_id = '1'
+        @address_record.valid?
+        expect(@address_record.errors.full_messages).to include("Prefecture can't be blank")
+      end
       it 'cityが空だと保存できないこと' do
         @address_record.city = ''
         @address_record.valid?
@@ -49,8 +54,18 @@ RSpec.describe AddressRecord, type: :model do
         @address_record.valid?
         expect(@address_record.errors.full_messages).to include("Phone number can't be blank")
       end
-      it 'phone_numberが半角数字の10,11桁でないと保存できない' do
+      it 'phone_numberに半角数字以外が含まれていると保存できない' do
         @address_record.post_code = '000-0000-0000'
+        @address_record.valid?
+        expect(@address_record.errors.full_messages).to include("Post code is invalid")
+      end
+      it 'phone_numberが9桁以下だと保存できない' do
+        @address_record.post_code = '123456789'
+        @address_record.valid?
+        expect(@address_record.errors.full_messages).to include("Post code is invalid")
+      end
+      it 'phone_numberが12桁以上だと保存できない' do
+        @address_record.post_code = '123456789012'
         @address_record.valid?
         expect(@address_record.errors.full_messages).to include("Post code is invalid")
       end
