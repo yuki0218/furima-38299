@@ -1,4 +1,7 @@
 class PurchasesController < ApplicationController
+  before_action :authenticate_user!, only: :index
+  before_action :move_to_items_index, only: :index
+
   def index
     @item = Item.find(params[:item_id])
     @address_record = AddressRecord.new
@@ -28,5 +31,11 @@ class PurchasesController < ApplicationController
       card: purchase_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def move_to_items_index
+    if current_user.id == Item.find(params[:item_id]).user_id || PurchaseRecord.pluck(:item_id).include?(params[:item_id].to_i)
+      redirect_to root_path
+    end
   end
 end
