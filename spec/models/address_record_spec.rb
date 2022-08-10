@@ -64,6 +64,11 @@ RSpec.describe AddressRecord, type: :model do
         @address_record.valid?
         expect(@address_record.errors.full_messages).to include("Item can't be blank")
       end
+      it "tokenが空では登録できないこと" do
+        @address_record.token = nil
+        @address_record.valid?
+        expect(@address_record.errors.full_messages).to include("Token can't be blank")
+      end
     end
   end
 end
